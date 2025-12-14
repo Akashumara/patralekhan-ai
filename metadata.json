@@ -1,0 +1,7 @@
+{
+  "name": "PatraLekhan AI Ultimate",
+  "description": "A comprehensive platform for generating, customizing, and managing formal applications in Hindi and English for Indian users.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}
