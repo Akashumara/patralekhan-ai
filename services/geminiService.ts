@@ -1,14 +1,18 @@
 import { GoogleGenAI } from "@google/genai";
 
+// Declare process to satisfy TypeScript in browser environment
+declare const process: { env: { API_KEY: string } };
+
 // Note: In a real environment, this comes from process.env.API_KEY
-// For this demo structure, we assume the environment is set up correctly as per prompt.
+// The vite.config.ts will replace this with the actual VITE_API_KEY value during build
 const apiKey = process.env.API_KEY || ''; 
 
 const ai = new GoogleGenAI({ apiKey });
 
-export const generateLetter = async (prompt: string, language: 'English' | 'Hindi' | 'Hinglish') => {
+export const generateLetter = async (prompt: string, language: 'English' | 'Hindi' | 'Hinglish'): Promise<string> => {
   if (!apiKey) {
-    throw new Error("API Key is missing.");
+    console.error("API Key is missing.");
+    throw new Error("API Key is missing. Please check your settings.");
   }
 
   const model = 'gemini-2.5-flash';
@@ -35,7 +39,8 @@ export const generateLetter = async (prompt: string, language: 'English' | 'Hind
       }
     });
     
-    return response.text;
+    // Ensure we always return a string, even if response is empty
+    return response.text || '';
   } catch (error) {
     console.error("Gemini Error:", error);
     throw new Error("Failed to generate letter. Please try again.");
